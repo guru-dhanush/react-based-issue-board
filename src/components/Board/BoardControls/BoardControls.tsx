@@ -27,6 +27,7 @@ export const BoardControls = ({
       <div className="filter-panels">
         <SearchPanel value={searchQuery} onSearch={onSearch} />
         <FilterPanel
+          filters={filters}
           assigneeOptions={assigneeOptions}
           onApply={onFilterApply}
           onReset={onFilterReset}

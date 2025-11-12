@@ -93,3 +93,9 @@
     width: 60%;
   }
 }
+
+@media (max-width: 576px) {
+  .filter-count-text {
+    display: none;
+  }
+}

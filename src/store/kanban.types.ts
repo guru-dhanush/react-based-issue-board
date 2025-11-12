@@ -1,4 +1,4 @@
-import { AvailableFilters, Issue, IssueStatus } from "../types";
+import { Issue, IssueStatus } from "../types";
 
 export interface IssuesAndOrder {
   issues: Record<string, Issue>;
@@ -10,6 +10,11 @@ export interface UpdatePayload {
     fromColumn: IssueStatus;
     toColumn: IssueStatus;
   };
+}
+
+export interface AvailableFilters {
+  severity: number | null;
+  assignee: string | null;
 }
 
 export interface IssueTransition {
@@ -51,11 +56,9 @@ export interface IssueSlice extends IssuesAndOrder {
 }
 
 export interface IssuesFilterSlice {
-  filters: Record<AvailableFilters, string | number | null>;
+  filters: AvailableFilters;
   searchQuery: string | null;
-  updateFilter: (
-    filters: Record<AvailableFilters, string | number | null>
-  ) => void;
+  updateFilter: (filters: AvailableFilters) => void;
   resetFilter: () => void;
   setSearch: (searchQuery: string | null) => void;
 }

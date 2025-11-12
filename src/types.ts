@@ -2,7 +2,6 @@ import { IssuesFilterSlice } from "./store/kanban.types";
 
 export type IssueStatus = "Backlog" | "In Progress" | "Done";
 export type IssuePriority = "low" | "medium" | "high";
-export type AvailableFilters = "severity" | "assignee";
 export type ColumnMove = "fromColumn" | "toColumn";
 export type Role = "admin" | "contributor";
 export type Permission =

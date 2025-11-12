@@ -1,6 +1,5 @@
 import { StateCreator } from "zustand";
 import { IssuesFilterSlice } from "../kanban.types";
-
 export const createIssuesFilterSlice: StateCreator<IssuesFilterSlice> = (
   set
 ) => ({
@@ -9,24 +8,26 @@ export const createIssuesFilterSlice: StateCreator<IssuesFilterSlice> = (
     assignee: null,
   },
   searchQuery: null,
-  updateFilter: (filters) => {
+
+  updateFilter: (updates) =>
     set((state) => ({
-      ...state,
-      filters,
-    }));
-  },
-  resetFilter: () => {
+      filters: {
+        ...state.filters,
+        ...updates,
+      },
+    })),
+
+  resetFilter: () =>
     set(() => ({
       filters: {
         severity: null,
         assignee: null,
       },
       searchQuery: null,
-    }));
-  },
-  setSearch: (searchQuery) => {
+    })),
+
+  setSearch: (searchQuery) =>
     set(() => ({
       searchQuery,
-    }));
-  },
+    })),
 });

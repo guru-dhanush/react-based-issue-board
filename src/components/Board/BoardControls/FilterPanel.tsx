@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Dropdown } from "../../common/ui/Dropdown";
 import { IssuesFilterSlice } from "../../../store/kanban.types";
 import { Select } from "../../common/ui/Select";
@@ -9,19 +9,27 @@ interface FilterControlsProps {
   assigneeOptions: SelectOption[];
   onApply: (filters: IssuesFilterSlice["filters"]) => void;
   onReset: () => void;
+  filters: IssuesFilterSlice["filters"];
 }
 
 interface SelectOption {
   value: string;
   label: string;
 }
+
 export const FilterPanel: FC<FilterControlsProps> = ({
+  filters,
   assigneeOptions,
   onApply,
   onReset,
 }) => {
-  const [assignee, setAssignee] = useState<string | null>(null);
-  const [severity, setSeverity] = useState<number | null>(null);
+  const [assignee, setAssignee] = useState<string | null>(filters.assignee);
+  const [severity, setSeverity] = useState<number | null>(filters.severity);
+
+  useEffect(() => {
+    setAssignee(filters.assignee);
+    setSeverity(filters.severity);
+  }, [filters]);
 
   const handleApply = () => {
     onApply({ severity, assignee });
@@ -33,6 +41,8 @@ export const FilterPanel: FC<FilterControlsProps> = ({
     onReset();
   };
 
+  const appliedFilterCount = Object.values(filters).filter((v) => v).length;
+
   return (
     <div className="filter-panel">
       <Dropdown>
@@ -43,6 +53,11 @@ export const FilterPanel: FC<FilterControlsProps> = ({
               alt="Filter"
               style={{ width: "18px", height: "18px" }}
             />
+            <span className="filter-count-text">
+              {appliedFilterCount > 0
+                ? `Filters (${appliedFilterCount})`
+                : "Filters"}
+            </span>
           </div>
         </Dropdown.Trigger>
 
