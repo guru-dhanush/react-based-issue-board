@@ -1,0 +1,114 @@
+.undo-toast {
+  width: 100%;
+}
+
+.undo-toast__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.undo-toast__message {
+  flex: 1;
+  font-weight: 500;
+}
+
+.undo-toast__btn {
+  padding: 0.375rem 0.875rem;
+  background: var(--primary-blue-light);
+  color: var(--color-white);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.undo-toast__btn:hover:not(:disabled) {
+  background: var(--primary-blue-dark);
+}
+
+.undo-toast__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.undo-toast__progress-bar {
+  height: 3px;
+  background: var(--color-gray-200);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.undo-toast__progress-fill {
+  height: 100%;
+  background: var(--primary-blue-light);
+  transition: width 0.1s linear;
+}
+
+
+.Toastify__toast--error {
+  background-color: var(--color-error-red);
+  color: var(--color-crimson-red);
+  border-left: 4px solid var(--color-crimson-red);
+}
+
+.Toastify__toast--error .Toastify__toast-icon {
+  color: var(--color-crimson-red);
+}
+
+.error-toast {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.error-toast__title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-crimson-red);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.error-toast__issue {
+  font-size: 13px;
+  color: var(--color-gray-600);
+  padding: 6px 8px;
+  background: var(--color-gray-100);
+  border-radius: 4px;
+}
+
+.error-toast__details {
+  font-size: 12px;
+  opacity: 0.9;
+  color: var(--color-gray-600);
+}
+
+.error-toast__message {
+  font-size: 12px;
+  color: var(--color-crimson-red);
+  margin-top: 4px;
+  padding: 6px 8px;
+  background: #fee2e2;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+}
+
+.error-toast__revert {
+  font-size: 12px;
+  color: #065f46;
+  background: #d1fae5;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 3px solid #10b981;
+  font-weight: 500;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

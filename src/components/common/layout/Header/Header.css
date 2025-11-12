@@ -1,0 +1,138 @@
+.header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header__container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__logo img {
+  height: 50px;
+}
+
+.header__link {
+  text-decoration: none;
+  color: var(--color-gray-700);
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.header__link:hover {
+  color: var(--primary-blue-light);
+  background: var(--color-gray-50);
+}
+
+.header__user {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 5px;
+  background: var(--color-gray-50);
+  border-radius: 25px;
+  border: 1px solid var(--color-gray-200);
+  transition: all 0.2s ease;
+}
+
+.header__user:hover {
+  background: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-blue-light);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.header__user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-right: 10px;
+}
+
+.header__user-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.header__user-role {
+  font-size: 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  width: fit-content;
+  line-height: 1;
+  color: var(--primary-blue-light);
+}
+
+.header__user-role--dark {
+  color: var(--primary-blue-dark);
+}
+
+.header__logo--small {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .header__container {
+    gap: 1rem;
+  }
+
+  .header__link {
+    font-size: 14px;
+    padding: 0.375rem 0.5rem;
+  }
+
+  .header__user {
+    gap: 0.5rem;
+  }
+
+  .header__avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .header__user-name {
+    font-size: 13px;
+  }
+
+  .header__logo--large {
+    display: none;
+  }
+
+  .header__logo--small {
+    display: block;
+  }
+}
