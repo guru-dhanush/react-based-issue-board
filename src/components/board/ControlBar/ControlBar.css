@@ -1,0 +1,26 @@
+.controlbar-filters {
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.controlbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--grey-100);
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 576px) {
+  .hidden-text {
+    display: none;
+  }
+
+  .controlbar-filters {
+    width: 60%;
+  }
+}

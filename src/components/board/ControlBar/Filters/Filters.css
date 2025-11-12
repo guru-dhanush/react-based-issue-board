@@ -1,0 +1,61 @@
+.filters-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-dropdown {
+  padding: 1rem;
+  min-width: 280px;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+/* Animation for dropdown */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-content {
+  animation: fadeIn 0.1s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filter-dropdown {
+    min-width: 240px;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+  }
+
+  .filter-actions > * {
+    width: 100%;
+  }
+}
+
+.filter-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

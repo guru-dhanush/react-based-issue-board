@@ -1,0 +1,19 @@
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 2rem;
+}
+
+.setting-item:not(:last-child) {
+  border-bottom: 1px solid var(--grey-100);
+}
+
+@media (max-width: 640px) {
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
