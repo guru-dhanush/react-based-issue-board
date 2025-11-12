@@ -1,5 +1,6 @@
 import { FC, memo } from "react";
 import { Issue } from "../../../types";
+import { formatDate } from "../../../utils/dateUtils";
 
 type IssueCardProps = {
   issue: Issue;
@@ -52,7 +53,7 @@ export const IssueCard: FC<IssueCardProps> = memo(({ issue }) => {
             style={{ width: "18px", height: "15px" }}
           />
           <time className="issue-card__time-badge" dateTime={issue.createdAt}>
-            {issue.createdAt}
+            {formatDate(issue.createdAt)}
           </time>
         </div>
 
