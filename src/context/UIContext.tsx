@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useReducer, ReactNode, useMemo, useEffect, useCallback } from "react";
+import  { createContext, useContext, useReducer, ReactNode, useMemo } from "react";
 import { UIState } from "../types/context.types";
 import { UIActionType } from "../types/context-actions.types";
 import { uiReducer, initialUIState } from "../reducers/uiReducer";
-import { usePolling } from "../hooks/usePolling";
-import { useSettings } from "./SettingsContext";
-import { syncExistingIssues } from "../services/issueService";
 
 interface UIContextType {
   state: UIState;
@@ -18,7 +15,6 @@ const UIContext = createContext<UIContextType | undefined>(undefined);
 
 export function UIProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(uiReducer, initialUIState);
-  const { settings } = useSettings();
 
   const actions = useMemo(() => ({
     setLoading: (loading: boolean) => dispatch({ type: UIActionType.SET_LOADING, payload: loading }),
