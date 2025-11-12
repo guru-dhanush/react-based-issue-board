@@ -13,18 +13,21 @@ export const initialUIState: UIState = {
 export function uiReducer(state: UIState, action: UIAction): UIState {
   switch (action.type) {
     case UIActionType.SET_LOADING:
+
       return {
         ...state,
         loading: action.payload,
       };
 
     case UIActionType.SET_ERROR:
+
       return {
         ...state,
         error: action.payload,
       };
 
     case UIActionType.SET_POLLING:
+
       return {
         ...state,
         polling: {
@@ -34,6 +37,7 @@ export function uiReducer(state: UIState, action: UIAction): UIState {
       };
 
     case UIActionType.UPDATE_LAST_SYNC:
+
       return {
         ...state,
         polling: {

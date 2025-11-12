@@ -13,16 +13,9 @@ export function issuesReducer(
   action: IssuesAction
 ): IssuesState {
   switch (action.type) {
-    case IssuesActionType.SET_ISSUES: {
-      return {
-        ...state,
-        issues: action.payload,
-      };
-    }
-
-    case IssuesActionType.SYNC_ISSUES_PAGINATED: {
+    case IssuesActionType.SYNC_ISSUES: {
       const { issues } = action.payload;
-      const issuesById: Record<string, Issue> = {};
+      const issuesById: Record<string, Issue> = { ...state.issues };
 
       issues.forEach((issue) => {
         issuesById[issue.id] = issue;
@@ -31,20 +24,6 @@ export function issuesReducer(
       return {
         ...state,
         issues: issuesById,
-      };
-    }
-
-    case IssuesActionType.LOAD_MORE_ISSUES: {
-      const { issues } = action.payload;
-      const newIssuesById: Record<string, Issue> = { ...state.issues };
-
-      issues.forEach((issue) => {
-        newIssuesById[issue.id] = issue;
-      });
-
-      return {
-        ...state,
-        issues: newIssuesById,
       };
     }
 

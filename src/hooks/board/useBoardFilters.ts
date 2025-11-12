@@ -3,7 +3,7 @@ import { Issue, IssueStatus } from "../../types";
 import { useIssues } from "../../context/IssuesContext";
 import { useFilters } from "../../context/FiltersContext";
 
-export function useBoardFiltersOptimized() {
+export function useBoardFilters() {
   const { state: issuesState } = useIssues();
   const { state: filtersState } = useFilters();
 

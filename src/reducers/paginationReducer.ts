@@ -1,5 +1,8 @@
 import { PaginationState } from "../types/context.types";
-import { PaginationAction, PaginationActionType } from "../types/context-actions.types";
+import {
+  PaginationAction,
+  PaginationActionType,
+} from "../types/context-actions.types";
 
 export const initialPaginationState: PaginationState = {
   currentPage: 1,
@@ -14,12 +17,6 @@ export function paginationReducer(
   action: PaginationAction
 ): PaginationState {
   switch (action.type) {
-    case PaginationActionType.SET_PAGINATION:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case PaginationActionType.SET_LOADING_MORE:
       return {
         ...state,
@@ -28,6 +25,7 @@ export function paginationReducer(
 
     case PaginationActionType.UPDATE_PAGINATION:
       const { page, hasMore, total } = action.payload;
+
       return {
         ...state,
         currentPage: page,

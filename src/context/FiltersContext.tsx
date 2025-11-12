@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useReducer, ReactNode, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  useMemo,
+} from "react";
 import { FiltersState } from "../types/context.types";
 import {
   FiltersAction,
@@ -89,6 +95,5 @@ export const useSeverityFilter = (): [
   const { state, updateSeverity } = useFilters();
   return [state.severity, updateSeverity];
 };
-
 
 export { useFilters };

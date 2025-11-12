@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { storage } from "../utils/storageUtils";
 import {
   POLLING_INTERVAL,
@@ -31,7 +37,9 @@ export const DEFAULT_SETTINGS: Settings = {
   enablePolling: ENABLE_POLLING_DEFAULT,
 };
 
-const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+const SettingsContext = createContext<SettingsContextType | undefined>(
+  undefined
+);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(() => {
@@ -52,7 +60,9 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings, resetSettings }}>
+    <SettingsContext.Provider
+      value={{ settings, updateSettings, resetSettings }}
+    >
       {children}
     </SettingsContext.Provider>
   );

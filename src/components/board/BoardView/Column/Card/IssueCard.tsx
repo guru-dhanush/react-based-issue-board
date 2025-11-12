@@ -1,88 +1,29 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { getPriorityInfo } from "../../../../../utils/priorityCalculator";
 import { formatDate, formatDateTime } from "../../../../../utils/dateUtils";
-import { COLUMNS } from "../../../../../constants/boardConfig";
-import { Button } from "../../../../../components/common/ui/Button";
 import "./IssueCard.css";
-import { Issue, IssueStatus } from "../../../../../types";
-import { usePermissions } from "../../../../../hooks/usePermissions";
+import { Issue } from "../../../../../types";
 
 interface IssueCardProps {
   issue: Issue;
   draggable?: boolean;
-  onMoveIssue?: (issueId: string, newStatus: IssueStatus) => void;
 }
 
 export const IssueCard = React.memo(function IssueCard({
   issue,
   draggable = false,
-  onMoveIssue,
 }: IssueCardProps) {
   const navigate = useNavigate();
-  const { can } = usePermissions();
+
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: issue.id,
       disabled: !draggable,
       data: { issue },
     });
-
-  const currentStatusIndex = COLUMNS.indexOf(issue.status);
-  const canMoveLeft = currentStatusIndex > 0;
-  const canMoveRight = currentStatusIndex < COLUMNS.length - 1;
-
-  const handleMoveLeft = useCallback(() => {
-    if (canMoveLeft && onMoveIssue) {
-      onMoveIssue(issue.id, COLUMNS[currentStatusIndex - 1]);
-    }
-  }, [canMoveLeft, onMoveIssue, issue.id, currentStatusIndex]);
-
-  const handleMoveRight = useCallback(() => {
-    if (canMoveRight && onMoveIssue) {
-      onMoveIssue(issue.id, COLUMNS[currentStatusIndex + 1]);
-    }
-  }, [canMoveRight, onMoveIssue, issue.id, currentStatusIndex]);
-
-  const handleMoveLeftClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      handleMoveLeft();
-    },
-    [handleMoveLeft]
-  );
-
-  const handleMoveRightClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      handleMoveRight();
-    },
-    [handleMoveRight]
-  );
-
-  const leftArrowIcon = useMemo(
-    () => (
-      <img
-        src="/icons/leftArrow.svg"
-        alt="left"
-        style={{ height: "20px", width: "20px" }}
-      />
-    ),
-    []
-  );
-
-  const rightArrowIcon = useMemo(
-    () => (
-      <img
-        src="/icons/rightArrow.svg"
-        alt="right"
-        style={{ height: "20px", width: "20px" }}
-      />
-    ),
-    []
-  );
 
   const { score: priorityScore, color: priorityColor } = getPriorityInfo(issue);
 
@@ -117,10 +58,6 @@ export const IssueCard = React.memo(function IssueCard({
           />
         </div>
         <h3 className="issue-card-title">{issue.title}</h3>
-
-        <button className="issue-card-menu">
-          <span>⋮</span>
-        </button>
       </div>
 
       <div className="space">
@@ -172,31 +109,6 @@ export const IssueCard = React.memo(function IssueCard({
 
         <div className="issue-card-text">Score: {priorityScore}</div>
       </div>
-
-      {can("move_issue") && (
-        <div className="issue-card-actions">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleMoveLeftClick}
-            disabled={!canMoveLeft}
-            className="move-button"
-            aria-label="Move left"
-          >
-            {leftArrowIcon}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleMoveRightClick}
-            disabled={!canMoveRight}
-            className="move-button"
-            aria-label="Move right"
-          >
-            {rightArrowIcon}
-          </Button>
-        </div>
-      )}
     </div>
   );
 });

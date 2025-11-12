@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { SearchBar } from "./SearchBar/SearchBar";
-import { useSearchFilter, useAssigneeFilter, useSeverityFilter } from "../../../context/FiltersContext";
+import {
+  useSearchFilter,
+  useAssigneeFilter,
+  useSeverityFilter,
+} from "../../../context/FiltersContext";
 import { useIssues } from "../../../context/IssuesContext";
 import { Button } from "../../common/ui/Button";
 import "./ControlBar.css";
@@ -26,7 +30,11 @@ const ControlBar = () => {
           currentAssignee={assigneeFilter}
           currentSeverity={severityFilter}
         />
-        <Button variant="secondary" onClick={() => setSidebarOpen(prev => !prev)} size="md">
+        <Button
+          variant="secondary"
+          onClick={() => setSidebarOpen((prev) => !prev)}
+          size="md"
+        >
           <img
             src={"icons/Hamburg.svg"}
             alt="Recently Accessed"

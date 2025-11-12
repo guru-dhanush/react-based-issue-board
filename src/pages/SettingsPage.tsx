@@ -1,8 +1,7 @@
-import { useCallback } from "react";
 import { useSettingsPage } from "../hooks/settings/useSettingsPage";
 import {
   SettingsHeader,
-  PollingSettings,
+  // PollingSettings,
   UserExperienceSettings,
   SettingsActions,
 } from "../components/settings";
@@ -18,31 +17,6 @@ const SettingsPage = () => {
     handleReset,
   } = useSettingsPage();
 
-  const handleTogglePolling = useCallback(
-    (enabled: boolean) => handleChange("enablePolling", enabled),
-    [handleChange]
-  );
-
-  const handleChangeInterval = useCallback(
-    (interval: number) => handleChange("pollingInterval", interval),
-    [handleChange]
-  );
-
-  const handleChangeUndoTimeout = useCallback(
-    (timeout: number) => handleChange("undoTimeout", timeout),
-    [handleChange]
-  );
-
-  const handleChangeSearchDebounce = useCallback(
-    (debounce: number) => handleChange("searchDebounce", debounce),
-    [handleChange]
-  );
-
-  const handleChangeMaxRecentItems = useCallback(
-    (max: number) => handleChange("maxRecentItems", max),
-    [handleChange]
-  );
-
   return (
     <ErrorBoundary>
       <div className="page-container">
@@ -50,20 +24,30 @@ const SettingsPage = () => {
           <SettingsHeader />
 
           <div className="settings-content">
-            <PollingSettings
+            {/* <PollingSettings
               enablePolling={tempSettings.enablePolling}
               pollingInterval={tempSettings.pollingInterval}
-              onTogglePolling={handleTogglePolling}
-              onChangeInterval={handleChangeInterval}
-            />
+              onTogglePolling={(enabled) =>
+                handleChange("enablePolling", enabled)
+              }
+              onChangeInterval={(interval) =>
+                handleChange("pollingInterval", interval)
+              }
+            /> */}
 
             <UserExperienceSettings
               undoTimeout={tempSettings.undoTimeout}
               searchDebounce={tempSettings.searchDebounce}
               maxRecentItems={tempSettings.maxRecentItems}
-              onChangeUndoTimeout={handleChangeUndoTimeout}
-              onChangeSearchDebounce={handleChangeSearchDebounce}
-              onChangeMaxRecentItems={handleChangeMaxRecentItems}
+              onChangeUndoTimeout={(timeout) =>
+                handleChange("undoTimeout", timeout)
+              }
+              onChangeSearchDebounce={(debounce) =>
+                handleChange("searchDebounce", debounce)
+              }
+              onChangeMaxRecentItems={(max) =>
+                handleChange("maxRecentItems", max)
+              }
             />
           </div>
 
@@ -78,5 +62,4 @@ const SettingsPage = () => {
     </ErrorBoundary>
   );
 };
-
 export default SettingsPage;

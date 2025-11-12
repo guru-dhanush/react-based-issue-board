@@ -4,6 +4,7 @@ import { Dropdown } from "../../../common/ui/Dropdown";
 import { Select } from "../../../common/ui/Select";
 import { Button } from "../../../common/ui/Button";
 import { Issue } from "../../../../types";
+import { severityOptions } from "../../../../constants/boardConfig";
 
 interface FilterControlsProps {
   onFilterAssignee: (assignee: string | null) => void;
@@ -52,13 +53,7 @@ export const FilterControls = React.memo(function FilterControls({
     ];
   }, [issues]);
 
-  const severityOptions: SelectOption[] = [
-    { value: "", label: "All" },
-    ...[1, 2, 3, 4, 5].map((level) => ({
-      value: level.toString(),
-      label: level.toString(),
-    })),
-  ];
+ 
 
   const handleApply = () => {
     onFilterAssignee(localAssignee);

@@ -1,7 +1,7 @@
-import { Permission, Role } from '../types';
+import { Permissions, Role } from '../types';
 
-export const PERMISSIONS: Record<Role, Permission[]> = {
-  admin: ['move_issue', 'update_status', 'resolve_issue'],
+export const PERMISSIONS: Record<Role, Permissions[]> = {
+  admin: [Permissions.MOVE_ISSUE, Permissions.UPDATE_STATUS, Permissions.RESOLVE_ISSUE],
   contributor: []
 };
 

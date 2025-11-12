@@ -39,11 +39,12 @@ export function PaginationProvider({ children }: { children: ReactNode }) {
           type: PaginationActionType.SET_LOADING_MORE,
           payload: loading,
         }),
-      updatePagination: (page: number, hasMore: boolean, total?: number) =>
+      updatePagination: (page: number, hasMore: boolean, total?: number) => {
         dispatch({
           type: PaginationActionType.UPDATE_PAGINATION,
           payload: { page, hasMore, total },
-        }),
+        });
+      },
     }),
     []
   );
@@ -68,7 +69,7 @@ function usePagination(): PaginationContextType {
 
 export const useLoadMoreState = (): [boolean, boolean] => {
   const { state } = usePagination();
-  return [state.isLoadingMore, state.hasMore && !state.isLoadingMore];
+  return [state.isLoadingMore, state.hasMore];
 };
 
 export { usePagination };

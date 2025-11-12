@@ -1,65 +1,58 @@
-import { useCallback } from "react";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
-import { useIssues } from "../../../context/IssuesContext";
 import { useLoadingState } from "../../../context/UIContext";
-import { useLoadMoreState } from "../../../context/PaginationContext";
 import { usePermissions } from "../../../hooks/usePermissions";
 import { LoadingSpinner } from "../../common/ui/Loader";
-import { COLUMNS, IssueStatus } from "../../../constants/boardConfig";
+import { COLUMNS } from "../../../constants/boardConfig";
 import "./BoardView.css";
-import { useBoardFiltersOptimized } from "../../../hooks/board/useBoardFilters";
+import { useBoardFilters } from "../../../hooks/board/useBoardFilters";
 import { useBoardData } from "../../../hooks/board/useBoardData";
 import { useBoardDnd } from "../../../hooks/board/useBoardDnd";
 import { BoardColumn } from "./Column/BoardColumn";
 import { IssueCard } from "./Column/Card/IssueCard";
+import { Permissions } from "../../../types";
+import { useThrottle } from "../../../hooks/useThrottle";
 
 const BoardView = () => {
-  const { state: issuesState, updateIssue } = useIssues();
   const [isLoading] = useLoadingState();
-  const [isLoadingMore, hasMore] = useLoadMoreState();
   const { can } = usePermissions();
-  const { columnIssues } = useBoardFiltersOptimized();
-  const { loadMoreIssues } = useBoardData();
+  const { columnIssues } = useBoardFilters();
+  const { fetchMoreData } = useBoardData();
 
   const { sensors, activeIssue, handleDragStart, handleDragEnd } = useBoardDnd({
     canMove: can,
   });
 
-  const handleMoveIssue = useCallback(
-    (issueId: string, newStatus: IssueStatus) => {
-      updateIssue(issueId, { status: newStatus });
-    },
-    [updateIssue]
-  );
+  const throttleDragEnd = useThrottle(handleDragEnd, 1000);
+  const throttleDragStart = useThrottle(handleDragStart, 1000);
 
-  if (isLoading && Object.keys(issuesState.issues).length === 0) {
+  if (isLoading) {
     return <LoadingSpinner size="md" message="Loading issues..." />;
   }
+  console.log("columnIssues", columnIssues);
 
   return (
     <DndContext
       sensors={sensors}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
+      onDragStart={throttleDragStart}
+      onDragEnd={throttleDragEnd}
     >
       <div className="board-columns">
         {COLUMNS.map((column) => (
           <BoardColumn
-            key={column}
+            key={`board-column-${column}`}
             columnId={column}
             title={column}
             issues={columnIssues[column]}
-            draggable={can("move_issue")}
-            onMoveIssue={handleMoveIssue}
-            onLoadMore={loadMoreIssues}
-            hasMore={hasMore}
-            isLoadingMore={isLoadingMore}
+            draggable={can(Permissions.MOVE_ISSUE)}
+            onLoadMore={fetchMoreData}
           />
         ))}
       </div>
-      <DragOverlay>
-        {activeIssue && <IssueCard issue={activeIssue} draggable />}
-      </DragOverlay>
+      {activeIssue && (
+        <DragOverlay>
+          <IssueCard issue={activeIssue} draggable />
+        </DragOverlay>
+      )}
     </DndContext>
   );
 };

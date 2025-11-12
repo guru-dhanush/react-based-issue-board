@@ -1,7 +1,13 @@
 export type IssueStatus = "Backlog" | "In Progress" | "Done";
 export type IssuePriority = "low" | "medium" | "high";
 export type Role = "admin" | "contributor";
-export type Permission = "move_issue" | "update_status" | "resolve_issue";
+export type Permission = Permissions.MOVE_ISSUE | Permissions.UPDATE_STATUS | Permissions.RESOLVE_ISSUE;
+
+export enum Permissions {
+  MOVE_ISSUE = "move_issue",
+  UPDATE_STATUS = "update_status",
+  RESOLVE_ISSUE = "resolve_issue",
+}
 
 export interface Issue {
   id: string;

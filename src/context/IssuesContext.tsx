@@ -4,7 +4,6 @@ import React, {
   useReducer,
   ReactNode,
   useMemo,
-  useCallback,
 } from "react";
 import { Issue } from "../types";
 import { IssuesState } from "../types/context.types";
@@ -14,6 +13,8 @@ import { issuesReducer, initialIssuesState } from "../reducers/issuesReducer";
 interface IssuesContextType {
   state: IssuesState;
   dispatch: React.Dispatch<IssuesAction>;
+  syncIssues: (issues: Issue[]) => void;
+  syncExistingIssues: (issues: Issue[]) => void;
   updateIssue: (issueId: string, updates: Partial<Issue>) => void;
 }
 
@@ -22,13 +23,28 @@ const IssuesContext = createContext<IssuesContextType | undefined>(undefined);
 export function IssuesProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(issuesReducer, initialIssuesState);
 
-  const updateIssue = useCallback(
-    (issueId: string, updates: Partial<Issue>) => {
-      dispatch({
-        type: IssuesActionType.UPDATE_ISSUE,
-        payload: { issueId, updates },
-      });
-    },
+  const actions = useMemo(
+    () => ({
+      updateIssue: (issueId: string, updates: Partial<Issue>) => {
+        
+        dispatch({
+          type: IssuesActionType.UPDATE_ISSUE,
+          payload: { issueId, updates },
+        });
+      },
+      syncIssues: (issues: Issue[]) => {
+        dispatch({
+          type: IssuesActionType.SYNC_ISSUES,
+          payload: { issues },
+        });
+      },
+      syncExistingIssues: (issues: Issue[]) => {
+        dispatch({
+          type: IssuesActionType.SYNC_EXISTING_ISSUES,
+          payload: issues,
+        });
+      },
+    }),
     []
   );
 
@@ -36,9 +52,9 @@ export function IssuesProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       dispatch,
-      updateIssue,
+      ...actions,
     }),
-    [state, updateIssue]
+    [state, actions]
   );
 
   return (

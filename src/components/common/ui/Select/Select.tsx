@@ -34,7 +34,9 @@ export function Select({
         name={name}
         className="custom-select"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) =>
+          onChange(e.target.value ? e.target.value : options[0].value)
+        }
         disabled={disabled}
       >
         <option value="">{placeholder}</option>

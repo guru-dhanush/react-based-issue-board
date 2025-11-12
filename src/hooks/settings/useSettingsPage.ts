@@ -6,10 +6,13 @@ export function useSettingsPage() {
   const [tempSettings, setTempSettings] = useState(settings);
   const [saved, setSaved] = useState(false);
 
-  const handleChange = useCallback((key: keyof typeof settings, value: number | boolean) => {
-    setTempSettings((prev) => ({ ...prev, [key]: value }));
-    setSaved(false);
-  }, []);
+  const handleChange = useCallback(
+    (key: keyof typeof settings, value: number | boolean) => {
+      setTempSettings((prev) => ({ ...prev, [key]: value }));
+      setSaved(false);
+    },
+    []
+  );
 
   const handleSave = useCallback(() => {
     updateSettings(tempSettings);

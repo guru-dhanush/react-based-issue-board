@@ -50,22 +50,6 @@
   padding-top: 4px;
 }
 
-.issue-card-menu {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: #9ca3af;
-  font-size: 18px;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: color 0.2s;
-}
-
-.issue-card-menu:hover {
-  color: #6b7280;
-}
-
 /* Description */
 .issue-card-description {
   font-size: 13px;
@@ -150,4 +134,3 @@
 .issue-tag {
   margin: 5px;
 }
-

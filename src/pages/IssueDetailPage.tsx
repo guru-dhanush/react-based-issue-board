@@ -11,7 +11,13 @@ import { IssueNotFound } from "../components/issueDetails/IssueNotFound";
 
 const IssueDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { issue, isLoading, resolving, handleResolve } = useIssueDetail(id);
+  const {
+    issue,
+    isLoading,
+    resolving,
+    handleResolve,
+    handleUpdateStatus,
+  } = useIssueDetail(id);
 
   if (isLoading) {
     return <LoadingSpinner size="lg" message="Loading issue..." />;
@@ -32,7 +38,10 @@ const IssueDetailPage = () => {
               <div className="issue-detail-id">Issue #{issue.id}</div>
               <h1 className="issue-detail-title">{issue.title}</h1>
 
-              <IssueMetadata issue={issue} />
+              <IssueMetadata
+                issue={issue}
+                onUpdateStatus={handleUpdateStatus}
+              />
               <IssueDescription description={issue.description} />
               <IssueTags tags={issue.tags} />
             </div>

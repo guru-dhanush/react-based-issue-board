@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDebounce } from "../../../../hooks/useDebounce";
 import "./SearchBar.css";
 import { useSettings } from "../../../../context/SettingsContext";
@@ -20,17 +20,13 @@ export const SearchBar = React.memo(function SearchBar({
     onSearch(debouncedQuery);
   }, [debouncedQuery, onSearch]);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  }, []);
-
   return (
     <input
       type="text"
       className="search-input"
       placeholder={placeholder}
       value={query}
-      onChange={handleChange}
+      onChange={(e) => setQuery(e.target.value)}
     />
   );
 });

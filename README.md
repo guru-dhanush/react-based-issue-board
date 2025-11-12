@@ -16,9 +16,74 @@ This application is a React based issue board system. It provides a Kanban style
 
 ### 2. Real-time Data Synchronization
 
-- Custom polling system that syncs data in the background with configurable intervals.
-- Pause and resume functionality for the polling system.
-- Automatic conflict resolution and data merging.
+To simulate real-time collaborative behaviour (similar to Jira), I implemented **two mechanisms**:
+
+#### **🔹 a. Simulated Live Updates Using `localStorage` Events**
+
+I replicated a multi-user real-time environment by using the `storage` event.
+Whenever one tab updates the mock DB stored in `localStorage`, all _other_ tabs automatically receive the update.
+
+```ts
+useEffect(() => {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === MOCK_DB_KEY) {
+      fetchData(); // Refresh data when changes occur in another tab
+    }
+  };
+
+  window.addEventListener("storage", onStorage);
+  return () => window.removeEventListener("storage", onStorage);
+}, []);
+```
+
+**Why this works:**
+
+- The `storage` event fires **only in other tabs**, not the one making the update.
+- This perfectly simulates real backend push updates / WebSocket-like behaviour.
+- All open tabs stay synchronized automatically.
+
+This allowed me to mimic **live multi-client collaboration** without a real backend.
+
+---
+
+#### **🔹 b. Polling System for Continuous Synchronization**
+
+I added configurable polling:
+
+```ts
+const { pause: pausePolling, resume: resumePolling } = usePolling(
+  syncCallback,
+  settings.pollingInterval,
+  {
+    enabled: settings.enablePolling && ui.state.polling.isPolling,
+    immediate: false,
+  }
+);
+```
+
+**Key features of the polling system:**
+
+- User can **pause**, **resume**, or change the interval.
+- Ensures UI stays fresh
+
+#### **🔹 Case Study Findings: Real-time Update Options**
+
+Considering polling options for live updates:
+
+**Current Implementation (Event-based):**
+
+- Cross-tab sync via localStorage events
+- Race conditions with rapid updates (<10ms)
+
+**Recommendation for Production:**
+
+- **WebSocket is the best option** for real-time live updates
+- Handles concurrent users and rapid updates reliably
+- True real-time synchronization across devices
+
+Current event based approach works for case study , but WebSocket would be ideal for production scenarios._
+
+---
 
 ### 3. Advanced State Management
 
@@ -125,12 +190,11 @@ This application is a React based issue board system. It provides a Kanban style
 
 ### 1. Performance Bottlenecks
 
-- **Challenge**: The original monolithic BoardContext caused widespread re-renders whenever any state changed, leading to poor performance.
-- **Solution**: Split the context into four specialized contexts (Issues, Filters, Pagination, UI) and implemented strategic memoization with React.memo and useCallback.
+- **Challenge**:A major challenge encountered was unavoidable re-rendering of all draggable/droppable components when using dnd-kit hooks (useDraggable / useDroppable) during drag interactions, even if component props remained unchange.
 
 ### 2. Complex State Management
 
-- **Challenge**: Managing optimistic updates while maintaining rollback functionality for drag-and-drop operations was complex.
+- **Challenge**: Managing optimistic updates while maintaining rollback functionality for drag and drop operations was little tricky.
 - **Solution**: Implemented a transition history system that tracks all changes and allows proper undo functionality with toast notifications.
 
 ### 3. Drag and Drop Implementation

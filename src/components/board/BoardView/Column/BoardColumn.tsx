@@ -7,16 +7,14 @@ import { useVirtualScroll } from "../../../../hooks/useVirtualScroll";
 import { useInfiniteScroll } from "../../../../hooks/useInfiniteScroll";
 import "./BoardColumn.css";
 import React, { useCallback } from "react";
+import { useLoadMoreState } from "../../../../context/PaginationContext";
 
 interface BoardColumnProps {
   columnId: IssueStatus;
   title: string;
   issues: Issue[];
   draggable?: boolean;
-  onMoveIssue?: (issueId: string, newStatus: IssueStatus) => void;
   onLoadMore?: () => void;
-  hasMore?: boolean;
-  isLoadingMore?: boolean;
 }
 
 export const BoardColumn = React.memo(function BoardColumn({
@@ -24,17 +22,13 @@ export const BoardColumn = React.memo(function BoardColumn({
   title,
   issues,
   draggable = false,
-  onMoveIssue,
   onLoadMore,
-  hasMore = false,
-  isLoadingMore = false,
 }: BoardColumnProps) {
-  
   const { setNodeRef, isOver } = useDroppable({
     id: columnId,
     data: { columnId },
   });
-
+  const [isLoadingMore, hasMore] = useLoadMoreState();
   const sortedIssues = usePrioritySort(issues);
 
   const classes = classNames("board-column", {
@@ -52,8 +46,8 @@ export const BoardColumn = React.memo(function BoardColumn({
 
   const { sentinelRef } = useInfiniteScroll({
     onLoadMore: onLoadMore || (() => {}),
-    hasMore,
-    isLoading: isLoadingMore,
+    hasMore: hasMore || false,
+    isLoading: isLoadingMore || false,
     threshold: 100,
   });
 
@@ -61,14 +55,11 @@ export const BoardColumn = React.memo(function BoardColumn({
     (node: HTMLDivElement | null) => {
       setNodeRef(node);
       if (node && containerRef) {
-        (
-          containerRef as React.MutableRefObject<HTMLDivElement | null>
-        ).current = node;
+        (containerRef as React.RefObject<HTMLDivElement | null>).current = node;
       }
     },
     [setNodeRef, containerRef]
   );
-
 
   return (
     <div className={classes}>
@@ -86,12 +77,7 @@ export const BoardColumn = React.memo(function BoardColumn({
           <div style={{ position: "relative" }}>
             <div style={{ transform: `translateY(${offsetY}px)` }}>
               {virtualItems.map((issue) => (
-                <IssueCard
-                  key={issue.id}
-                  issue={issue}
-                  draggable={draggable}
-                  onMoveIssue={onMoveIssue}
-                />
+                <IssueCard key={issue.id} issue={issue} draggable={draggable} />
               ))}
             </div>
             {hasMore && (

@@ -9,13 +9,13 @@ export interface PaginatedIssuesResponse {
   hasMore: boolean;
 }
 
-
 export async function fetchIssuesPaginated(
   page: number = 1,
   pageSize: number = 20
 ): Promise<PaginatedIssuesResponse> {
   try {
     const response = await mockFetchIssuesPaginated({ page, pageSize });
+
     return {
       data: response.data as Issue[],
       total: response.total,
@@ -41,7 +41,6 @@ export async function updateIssueStatus(
     throw error;
   }
 }
-
 
 export async function moveIssue(
   issueId: string,
@@ -69,9 +68,12 @@ export async function resolveIssue(issueId: string): Promise<Issue> {
 
 export async function syncExistingIssues(issueIds: string[]): Promise<Issue[]> {
   try {
-    const response = await mockFetchIssuesPaginated({ page: 1, pageSize: issueIds.length });
+    const response = await mockFetchIssuesPaginated({
+      page: 1,
+      pageSize: issueIds.length,
+    });
     const allIssues = response.data as Issue[];
-    return allIssues.filter(issue => issueIds.includes(issue.id));
+    return allIssues.filter((issue) => issueIds.includes(issue.id));
   } catch (error) {
     console.error("Failed to sync existing issues:", error);
     throw new Error("Failed to sync issues");

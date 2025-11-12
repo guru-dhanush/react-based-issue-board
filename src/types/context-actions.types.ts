@@ -1,11 +1,10 @@
 import { Issue, MovePayload } from "../types";
-import { FiltersState, PaginationState } from "./context.types";
+import { FiltersState } from "./context.types";
 
 export enum IssuesActionType {
   SET_ISSUES = "SET_ISSUES",
   UPDATE_ISSUE = "UPDATE_ISSUE",
-  SYNC_ISSUES_PAGINATED = "SYNC_ISSUES_PAGINATED",
-  LOAD_MORE_ISSUES = "LOAD_MORE_ISSUES",
+  SYNC_ISSUES = "SYNC_ISSUES",
   SYNC_EXISTING_ISSUES = "SYNC_EXISTING_ISSUES",
   MOVE_ISSUE_OPTIMISTIC = "MOVE_ISSUE_OPTIMISTIC",
   UPDATE_TRANSITION_TOAST = "UPDATE_TRANSITION_TOAST",
@@ -16,8 +15,7 @@ export enum IssuesActionType {
 export type IssuesAction =
   | { type: IssuesActionType.SET_ISSUES; payload: Record<string, Issue> }
   | { type: IssuesActionType.UPDATE_ISSUE; payload: { issueId: string; updates: Partial<Issue> } }
-  | { type: IssuesActionType.SYNC_ISSUES_PAGINATED; payload: { issues: Issue[] } }
-  | { type: IssuesActionType.LOAD_MORE_ISSUES; payload: { issues: Issue[] } }
+  | { type: IssuesActionType.SYNC_ISSUES; payload: { issues: Issue[] } }
   | { type: IssuesActionType.SYNC_EXISTING_ISSUES; payload: Issue[] }
   | { type: IssuesActionType.MOVE_ISSUE_OPTIMISTIC; payload: MovePayload; meta?: { timestamp: number } }
   | { type: IssuesActionType.UPDATE_TRANSITION_TOAST; payload: { issueId: string; transitionId: string; toastId: string | number } }
@@ -40,13 +38,11 @@ export type FiltersAction =
   | { type: FiltersActionType.SET_SEVERITY; payload: number | null };
 
 export enum PaginationActionType {
-  SET_PAGINATION = "SET_PAGINATION",
   SET_LOADING_MORE = "SET_LOADING_MORE",
   UPDATE_PAGINATION = "UPDATE_PAGINATION",
 }
 
 export type PaginationAction =
-  | { type: PaginationActionType.SET_PAGINATION; payload: Partial<PaginationState> }
   | { type: PaginationActionType.SET_LOADING_MORE; payload: boolean }
   | { type: PaginationActionType.UPDATE_PAGINATION; payload: { page: number; hasMore: boolean; total?: number } };
 

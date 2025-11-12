@@ -1,4 +1,4 @@
-import { IssueStatus } from "../../types";
+import { IssueStatus, Permissions } from "../../types";
 import { Button } from "../common/ui/Button";
 import { PermissionGate } from "../common/PermissionGate";
 
@@ -15,7 +15,7 @@ export const IssueActions = ({
 }: IssueActionsProps) => {
   return (
     <div className="issue-detail-actions">
-      <PermissionGate permission="resolve_issue">
+      <PermissionGate permission={Permissions.RESOLVE_ISSUE}>
         {status !== "Done" ? (
           <Button
             variant="primary"
