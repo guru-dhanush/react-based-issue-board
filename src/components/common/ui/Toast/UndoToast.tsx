@@ -27,7 +27,8 @@ export function UndoToast({
     }, 100);
 
     return () => clearInterval(interval);
-  }, [duration]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duration, expired, onExpire]);
 
   const onExpireRef = useRef(onExpire);
 

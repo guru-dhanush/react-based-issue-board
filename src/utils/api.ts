@@ -49,7 +49,7 @@ export const mockFetchIssuesPaginated = async (
 export const mockUpdateIssue = (issueId: string, updates: Partial<Issue>) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() < 0.1) {
+      if (Math.random() < 0.9) {
         resolve({ id: issueId, ...updates });
       } else {
         reject(new Error("Failed to update issue"));

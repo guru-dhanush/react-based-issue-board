@@ -9,7 +9,7 @@ export function useSettingsPage() {
   const handleChange = useCallback((key: keyof typeof settings, value: number | boolean) => {
     setTempSettings((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
-  }, [settings]);
+  }, []);
 
   const handleSave = useCallback(() => {
     updateSettings(tempSettings);

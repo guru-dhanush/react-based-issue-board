@@ -25,11 +25,10 @@ export function useBoardData() {
   );
 
   const syncCallback = useCallback(async () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (issueIds.length === 0) return;
 
     try {
-      console.log("Syncing issues...");
-
       const syncedIssues = await syncExistingIssues(issueIds);
       issues.dispatch({
         type: IssuesActionType.SYNC_EXISTING_ISSUES,
@@ -39,6 +38,7 @@ export function useBoardData() {
     } catch (error) {
       console.error("Polling sync failed:", error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueIds, issues.dispatch, ui.updateLastSync]);
 
   // Polling setup
@@ -53,7 +53,7 @@ export function useBoardData() {
 
   useEffect(() => {
     const loadInitialData = async () => {
-      console.log("Loading initial data...");
+      if (Object.keys(issues.state.issues).length > 0) return;
       ui.setLoading(true);
       try {
         const response = await fetchIssuesPaginated(1, 20);
@@ -85,41 +85,44 @@ export function useBoardData() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const loadMoreIssues = useCallback(async () => {
-    if (pagination.state.isLoadingMore || !pagination.state.hasMore) return;
-    pausePolling();
-    pagination.setLoadingMore(true);
-    try {
-      console.log("Loading more issues...");
-      const response = await fetchIssuesPaginated(
-        pagination.state.currentPage + 1,
-        pagination.state.pageSize
-      );
-      issues.dispatch({
-        type: IssuesActionType.LOAD_MORE_ISSUES,
-        payload: { issues: response.data },
-      });
-      pagination.updatePagination(response.page, response.hasMore);
-      ui.updateLastSync(new Date());
-    } catch (error) {
-      ui.setError(
-        error instanceof Error ? error.message : "Failed to load more issues"
-      );
-    } finally {
-      pagination.setLoadingMore(false);
-      if (settings.enablePolling) resumePolling();
-    }
-  }, [
-    pagination.state,
-    pagination.setLoadingMore,
-    pagination.updatePagination,
-    pausePolling,
-    resumePolling,
-    settings.enablePolling,
-    issues.dispatch,
-    ui.setError,
-    ui.updateLastSync,
-  ]);
+  const loadMoreIssues = useCallback(
+    async () => {
+      if (pagination.state.isLoadingMore || !pagination.state.hasMore) return;
+      pausePolling();
+      pagination.setLoadingMore(true);
+      try {
+        const response = await fetchIssuesPaginated(
+          pagination.state.currentPage + 1,
+          pagination.state.pageSize
+        );
+        issues.dispatch({
+          type: IssuesActionType.LOAD_MORE_ISSUES,
+          payload: { issues: response.data },
+        });
+        pagination.updatePagination(response.page, response.hasMore);
+        ui.updateLastSync(new Date());
+      } catch (error) {
+        ui.setError(
+          error instanceof Error ? error.message : "Failed to load more issues"
+        );
+      } finally {
+        pagination.setLoadingMore(false);
+        if (settings.enablePolling) resumePolling();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      pagination.state,
+      pagination.setLoadingMore,
+      pagination.updatePagination,
+      pausePolling,
+      resumePolling,
+      settings.enablePolling,
+      issues.dispatch,
+      ui.setError,
+      ui.updateLastSync,
+    ]
+  );
 
   return {
     loadMoreIssues,
