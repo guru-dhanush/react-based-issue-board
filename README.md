@@ -68,7 +68,7 @@ This application is a React based issue board system. It provides a Kanban style
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/react-based-issue-board.git
+   git clone https://github.com/guru-dhanush/react-based-issue-board.git
    cd react-based-issue-board
    ```
 
