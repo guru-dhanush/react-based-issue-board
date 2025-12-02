@@ -89,7 +89,7 @@ Current event based approach works for case study , but WebSocket would be ideal
 
 - **React.js**: Main framework with functional components and hooks
 - **TypeScript**: For type safety and better development experience
-- **React Context API**: For state management with specialized contexts
+- **Zustand**: For state management 
 - **React Router**: For navigation between pages
 
 ### Additional Libraries
